@@ -1,0 +1,44 @@
+﻿@using Microsoft.Extensions.Localization
+@model MultilingualSite.Models.Club
+@* Впроваджуємо наш спільний локалізатор *@
+@inject IStringLocalizer<MultilingualSite.SharedResource> Localizer
+
+@{
+    ViewBag.Title = Localizer["CreateHeader"];
+}
+
+<h2 class="mb-4">@Localizer["CreateHeader"]</h2>
+
+<form asp-action="CreateClub" method="post" class="card p-4 shadow-sm" style="max-width: 600px;">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <fieldset>
+        <legend class="fw-bold mb-3">@Localizer["Club"]</legend>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="City" class="form-label"></label>
+            <input asp-for="City" class="form-control" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Country" class="form-label"></label>
+            <input asp-for="Country" class="form-control" />
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">@Localizer["CreateLink"]</button>
+        </div>
+    </fieldset>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
