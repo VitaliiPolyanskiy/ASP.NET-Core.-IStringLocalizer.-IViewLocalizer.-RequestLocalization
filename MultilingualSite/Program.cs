@@ -7,22 +7,14 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Налаштування підключення до бази даних
+// Налаштування підключення до бази даних
 string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ClubContext>(options => options.UseSqlServer(connection));
 
-// 2. Налаштування кешування та сесій
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(10); // Тайм-аут завершення сеансу
-    options.Cookie.Name = "Session"; // Ідентифікатор сесії, що зберігається в cookie
-});
-
-// 3. Налаштування шляху до папки з файлами ресурсів (.resx)
+// Налаштування шляху до папки з файлами ресурсів (.resx)
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-// 4. Реєстрація MVC та налаштування локалізації представлень і моделей
+// Реєстрація MVC та налаштування локалізації представлень і моделей
 builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
     .AddDataAnnotationsLocalization(options => {
@@ -32,7 +24,7 @@ builder.Services.AddControllersWithViews()
             factory.Create(typeof(SharedResource));
     });
 
-// 5. Конфігурація підтримуваних культур
+// Конфігурація підтримуваних культур
 var supportedCultures = new[]
 {
     new CultureInfo("uk"),
@@ -62,7 +54,6 @@ var app = builder.Build();
 app.UseRequestLocalization();
 
 app.UseStaticFiles();
-app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
